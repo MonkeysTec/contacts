@@ -1,0 +1,25 @@
+{
+  "contacts": [
+    {
+      "id": "1711241912102",
+      "name": "teste",
+      "primaryPhone": "123123123",
+      "mobilePhone": "123123123",
+      "workPhone": "0000000000"
+    },
+    {
+      "id": "1711254728531",
+      "name": "Teste",
+      "primaryPhone": "111111111",
+      "mobilePhone": "22222222",
+      "workPhone": "333333333333"
+    },
+    {
+      "id": "1711271362757",
+      "name": "Daniel",
+      "primaryPhone": "9999999999",
+      "mobilePhone": "77777777777",
+      "workPhone": "123123123"
+    }
+  ]
+}
