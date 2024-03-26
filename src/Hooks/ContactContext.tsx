@@ -2,12 +2,12 @@ import React, { createContext, useContext, useState } from "react";
 import { Contact } from "../Contacts/Contact";
 
 export type ContactContextType = {
-  id: number;
+  id: string;
   name: string;
   primaryPhone: string;
   mobilePhone: string;
   workPhone: string;
-  setId: (newState: number) => void;
+  setId: (newState: string) => void;
   setName: (newState: string) => void;
   setPrimaryPhone: (newState: string) => void;
   setMobilePhone: (newState: string) => void;
@@ -22,7 +22,7 @@ export const ContactContext = createContext<ContactContextType | null>(null);
 export const ContactProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const [id, setId] = useState<number>(0);
+  const [id, setId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [primaryPhone, setPrimaryPhone] = useState<string>("");
   const [mobilePhone, setMobilePhone] = useState<string>("");

@@ -4,26 +4,22 @@ import { Contact } from './Contact';
 import ContactForm from './ContactForm';
 import ContactService from './ContactService';
 import { useContactProvider } from '../Hooks/ContactContext';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const contactService = new ContactService();
 
 interface ContactListProps {
   contacts: Contact[];
   onUpdateContact: (contact: Contact) => void;
-  onDeleteContact: (id: number) => void;
-  onSort: (orderBy: keyof Contact) => void;
-  orderBy?: keyof Contact;
-  order: 'asc' | 'desc';
+  onDeleteContact: (id: string) => void;
 }
 
 const ContactList: React.FC<ContactListProps> = ({
   contacts,
   onUpdateContact,
   onDeleteContact,
-  onSort,
-  orderBy,
-  order,
 }) => {
 
   const { id, setId, name, setName, primaryPhone, setPrimaryPhone, mobilePhone, setMobilePhone, workPhone, setWorkPhone } = useContactProvider();
@@ -47,14 +43,6 @@ const ContactList: React.FC<ContactListProps> = ({
     closeModal();
   };
 
-  const handleSortRequest = (property: keyof Contact) => {
-    onSort(property);
-  };
-
-  const createSortHandler = (property: keyof Contact) => (event: React.MouseEvent<unknown>) => {
-    handleSortRequest(property);
-  };
-
   return (
     <div>
       <h1>Lista de Contatos</h1>
@@ -63,40 +51,16 @@ const ContactList: React.FC<ContactListProps> = ({
           <TableHead>
             <TableRow>
               <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'name'}
-                  direction={orderBy === 'name' ? order : 'asc'}
-                  onClick={createSortHandler('name')}
-                >
                   Name
-                </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'primaryPhone'}
-                  direction={orderBy === 'primaryPhone' ? order : 'asc'}
-                  onClick={createSortHandler('primaryPhone')}
-                >
                   Primary Phone
-                </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'mobilePhone'}
-                  direction={orderBy === 'mobilePhone' ? order : 'asc'}
-                  onClick={createSortHandler('mobilePhone')}
-                >
                   Mobile Phone
-                </TableSortLabel>
               </TableCell>
               <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'workPhone'}
-                  direction={orderBy === 'workPhone' ? order : 'asc'}
-                  onClick={createSortHandler('workPhone')}
-                >
                   Work Phone
-                </TableSortLabel>
               </TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -109,8 +73,10 @@ const ContactList: React.FC<ContactListProps> = ({
                 <TableCell>{contact.mobilePhone}</TableCell>
                 <TableCell>{contact.workPhone}</TableCell>
                 <TableCell>
-                  <button onClick={() => openModal(contact)}>Atualizar</button>
-                  <button onClick={() => onDeleteContact(contact.id)}>Excluir</button>
+                  <Box >
+                    <EditNoteOutlinedIcon sx={{ cursor: 'pointer' }} onClick={() => openModal(contact)} />
+                    <DeleteOutlinedIcon sx={{ cursor: 'pointer' }} onClick={() => onDeleteContact(contact.id)} />
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

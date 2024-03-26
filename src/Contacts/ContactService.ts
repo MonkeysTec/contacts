@@ -31,7 +31,7 @@ export default class ContactService {
     this.contacts = await this.getAllContacts();
   }
 
-  public async deleteContact(id: number): Promise<void> {
+  public async deleteContact(id: string): Promise<void> {
     await fetch(`${this.baseUrl}/${id}`, {
       method: 'DELETE',
     });

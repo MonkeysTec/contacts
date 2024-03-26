@@ -16,7 +16,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialValues, onSubmit }) =>
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newContact: Contact = {
-      id: Date.now(),
+      id: `${Date.now()}`,
       name,
       primaryPhone,
       mobilePhone,
@@ -33,18 +33,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialValues, onSubmit }) =>
     <Box>
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 12 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField value={initialValues ? initialValues.name : ''} id="outlined-basic" label="Nome" variant="outlined" onChange={e => setName(e.target.value)} />
+          <TextField value={name} id="outlined-basic" label="Nome" variant="outlined" onChange={e => setName(e.target.value)} />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField value={initialValues ? initialValues.primaryPhone : ''} id="outlined-basic" label="Telefone Principal" variant="outlined" onChange={e => setPrimaryPhone(e.target.value)} />
+          <TextField value={primaryPhone} id="outlined-basic" label="Telefone Principal" variant="outlined" onChange={e => setPrimaryPhone(e.target.value)} />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField value={initialValues ? initialValues.mobilePhone : ''} id="outlined-basic" label="Telefone Celular" variant="outlined" onChange={e => setMobilePhone(e.target.value)} />
+          <TextField value={mobilePhone} id="outlined-basic" label="Telefone Celular" variant="outlined" onChange={e => setMobilePhone(e.target.value)} />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField value={initialValues ? initialValues.workPhone : ''} id="outlined-basic" label="Telefone de trabalho" variant="outlined" onChange={e => setWorkPhone(e.target.value)} />
+          <TextField value={workPhone} id="outlined-basic" label="Telefone de trabalho" variant="outlined" onChange={e => setWorkPhone(e.target.value)} />
         </Box>
-        <Button type="submit" variant="outlined">Salvar Contato</Button>
+        <Button color="success" type="submit" variant="outlined">Salvar Contato</Button>
       </form>
     </Box>
   );
