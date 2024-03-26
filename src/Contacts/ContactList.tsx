@@ -22,16 +22,18 @@ const ContactList: React.FC<ContactListProps> = ({
   onDeleteContact,
 }) => {
 
-  const { id, setId, name, setName, primaryPhone, setPrimaryPhone, mobilePhone, setMobilePhone, workPhone, setWorkPhone } = useContactProvider();
+  const { id, setId, name, setName, primaryPhone, setPrimaryPhone, mobilePhone, setMobilePhone, workPhone, setWorkPhone,edit,setEdit,idEdit,setIdEdit } = useContactProvider();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = (contact: Contact) => {
     setId(contact.id);
+    setIdEdit(contact.id)
     setName(contact.name);
     setPrimaryPhone(contact.primaryPhone);
     setMobilePhone(contact.mobilePhone);
     setWorkPhone(contact.workPhone);
-    setModalIsOpen(true);
+    setEdit(true)
+
   };
 
   const closeModal = () => {
@@ -39,7 +41,7 @@ const ContactList: React.FC<ContactListProps> = ({
   };
 
   const handleUpdate = () => {
-    contactService.updateContact({ id, name, primaryPhone, mobilePhone, workPhone });
+    contactService.updateContact({ id, name, primaryPhone, mobilePhone, workPhone },idEdit);
     closeModal();
   };
 

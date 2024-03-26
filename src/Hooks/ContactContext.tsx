@@ -12,7 +12,10 @@ export type ContactContextType = {
   setPrimaryPhone: (newState: string) => void;
   setMobilePhone: (newState: string) => void;
   setWorkPhone: (newState: string) => void;
-
+    edit:boolean,
+    setEdit:(newState:boolean)=>void;
+    idEdit:string,
+    setIdEdit:(newState:string)=>void;
   contacts: Contact[];
   setContacts: (newState: Contact[]) => void;
 };
@@ -27,6 +30,10 @@ export const ContactProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const [primaryPhone, setPrimaryPhone] = useState<string>("");
   const [mobilePhone, setMobilePhone] = useState<string>("");
   const [workPhone, setWorkPhone] = useState<string>("");
+  const [edit, setEdit] = useState<boolean>(false);
+  const [idEdit, setIdEdit] = useState('');
+
+
 
   const [contacts, setContacts] = useState<Contact[]>([]);
 
@@ -42,7 +49,11 @@ export const ContactProvider: React.FC<React.PropsWithChildren<{}>> = ({
     workPhone,
     setWorkPhone,
     contacts,
-    setContacts
+    setContacts,
+    edit,
+    setEdit,
+    idEdit,
+    setIdEdit
   };
 
   return (

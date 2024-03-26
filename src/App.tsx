@@ -14,16 +14,24 @@ const App: React.FC = () => {
 
   const { contacts, setContacts } = useContactProvider();
   const [selectedContact, setSelectedContact] = useState<Contact>();
+  const [contactsAutocomplete, setContactsAutocomplete] = useState<Contact[]>([]);
 
-  const { id, setId, name, setName, primaryPhone, setPrimaryPhone, mobilePhone, setMobilePhone, workPhone, setWorkPhone } = useContactProvider();
+
+  const { id, setId, name, setName, primaryPhone, setPrimaryPhone, mobilePhone, setMobilePhone, workPhone, setWorkPhone,edit,idEdit,setEdit } = useContactProvider();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  async function fetchContacts(name?:string) {
+    const allContacts = await contactService.getAllContacts(name);
+    setContacts(allContacts);
+  }
+  async function fetchContactsAuto() {
+    const allContacts = await contactService.getAllContacts();
+    setContactsAutocomplete(allContacts);
+  }
   useEffect(() => {
-    async function fetchContacts() {
-      const allContacts = await contactService.getAllContacts();
-      setContacts(allContacts);
-    }
+    
     fetchContacts();
+    fetchContactsAuto();
+
   }, [setContacts]);
 
   const initialFormValues: Contact = {
@@ -34,14 +42,26 @@ const App: React.FC = () => {
     mobilePhone: "",
   };
 
-  const handleAddContact = async (contact: Contact) => {
-    await contactService.addContact(contact);
-    setContacts(await contactService.getAllContacts());
+  const addOrEditContact = async (contact: Contact) => {
+
+    if(edit){
+      handleUpdateContact(contact)
+    }else{
+      handleCreateContact(contact)
+    }
+   
   };
 
-  const handleUpdateContact = async (contact: Contact) => {
-    await contactService.updateContact(contact);
+
+  const handleCreateContact = async(contact: Contact)=>{
+    await contactService.addContact(contact);
     setContacts(await contactService.getAllContacts());
+  }
+  const handleUpdateContact = async (contact: Contact) => {
+    await contactService.updateContact(contact,idEdit);
+    setEdit(false)
+    fetchContacts()
+    
   };
 
   const handleDeleteContact = async (id: string) => {
@@ -63,12 +83,18 @@ const App: React.FC = () => {
   };
 
   const handleUpdate = () => {
-    contactService.updateContact({ id, name, primaryPhone, mobilePhone, workPhone });
+    contactService.updateContact({ id, name, primaryPhone, mobilePhone, workPhone },idEdit);
     closeModal();
   };
 
-  function setSelectedValue(newValue: string | null) {
-    throw new Error('Function not implemented.');
+  function setSelectedValue(newValue: string) {
+    if(newValue===''){
+    fetchContacts()
+
+    }else{
+
+    fetchContacts(newValue)
+  }
   }
 
   return (
@@ -83,7 +109,7 @@ const App: React.FC = () => {
         options={contacts.map((contact: Contact) => contact.name)}
         sx={{ width: '100%', marginBottom: 4 }}
         onChange={(event, newValue) => {
-          setSelectedValue(newValue);
+          setSelectedValue(newValue??'');
         }}
         renderInput={
           (params) =>
@@ -129,7 +155,7 @@ const App: React.FC = () => {
         </TableContainer>
       }
       <h3>Adicionar contato</h3>
-      <ContactForm onSubmit={handleAddContact} initialValues={initialFormValues} />
+      <ContactForm onSubmit={addOrEditContact} initialValues={initialFormValues} />
       {contacts &&
         <ContactList
           contacts={contacts}
